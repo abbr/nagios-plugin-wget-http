@@ -37,8 +37,12 @@ $np->getopts;
 my $wgetopt   = $np->opts->wget;
 my $start     = [gettimeofday];
 my $result    = `wget -qO- $wgetopt`;
-my $resultLen = length($result);
 my $duration  = tv_interval($start);
+if ( $? != 0) {
+	$np->add_message( CRITICAL,
+		"error code $? returned from wget" );
+}
+my $resultLen = length($result);
 
 if ( $np->opts->string && index( $result, $np->opts->string ) == -1 ) {
 	$np->add_message( CRITICAL,
