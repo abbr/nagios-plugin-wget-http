@@ -40,18 +40,18 @@ my $result    = `wget -qO- $wgetopt`;
 my $duration  = tv_interval($start);
 if ( $? != 0) {
 	$np->add_message( CRITICAL,
-		"error code $? returned from wget" );
+		"Error code $? returned from wget." );
 }
 my $resultLen = length($result);
 
 if ( $np->opts->string && index( $result, $np->opts->string ) == -1 ) {
 	$np->add_message( CRITICAL,
-		"string \"" . $np->opts->string . "\" not found" );
+		"String \"" . $np->opts->string . "\" not found." );
 }
 
 if ( $np->opts->regex && $result !~ $np->opts->regex ) {
 	$np->add_message( CRITICAL,
-		"pattern \"" . $np->opts->regex . "\" not found" );
+		"Pattern \"" . $np->opts->regex . "\" not found." );
 }
 
 # Threshold methods
@@ -61,13 +61,19 @@ $np->set_thresholds(
 );
 my $code = $np->check_threshold($duration);
 $np->add_message( $code,
-	"$resultLen bytes in $duration seconds response time" );
+	"$resultLen bytes in $duration seconds response time." );
 
 $np->add_perfdata(
 	label     => "time",
 	value     => $duration,
 	uom       => "s",
 	threshold => $np->threshold(),
+);
+
+$np->add_perfdata(
+	label     => "size",
+	value     => $resultLen,
+	uom       => "B",
 );
 
 my ( $retCode, $message ) = $np->check_messages();
