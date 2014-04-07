@@ -1,3 +1,4 @@
+#!/usr/bin/env perl 
 use strict;
 
 # Constants OK, WARNING, CRITICAL, and UNKNOWN are exported by default
