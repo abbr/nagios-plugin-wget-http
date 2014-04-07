@@ -69,12 +69,14 @@ $np->add_perfdata(
 	value     => $duration,
 	uom       => "s",
 	threshold => $np->threshold(),
+	min       => 0,
 );
 
 $np->add_perfdata(
 	label     => "size",
 	value     => $resultLen,
 	uom       => "B",
+	min       => 0,
 );
 
 my ( $retCode, $message ) = $np->check_messages();
